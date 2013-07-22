@@ -36,9 +36,9 @@ with con:
       if cur.execute("select idtag from " + db.table + " where idtag=%s", (id)):
         print "Duplicate tag." 
         if NAME == "Linux": 
-          os.system("""spd-say "Rejected tag" """)
+          os.system("""spd-say "Duplicate tag" """)
         elif NAME == "Darwin": 
-          os.system("say Rejected tag") 
+          os.system("say Duplicate tag") 
 
       else: 
         #insert into the database. 
@@ -46,5 +46,9 @@ with con:
 
     else: 
       print "invalid input!"
+      if NAME == "Linux": 
+        os.system("""spd-say "Invalid Input" """)
+      elif NAME == "Darwin": 
+        os.system("say Invalid Input") 
       
    
