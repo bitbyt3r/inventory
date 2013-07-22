@@ -40,7 +40,16 @@ with con:
   while True: 
   
     #Read in the code: 
+    if id:
+      lastID = id
     id = getID() 
+    if lastID == id:
+      print "Rescan"
+      if NAME == "Linux": 
+        os.system("""spd-say "Rescan" """)
+      elif NAME == "Darwin": 
+        os.system("say Rescan")             
+      continue
     
 
     if id != False: 
