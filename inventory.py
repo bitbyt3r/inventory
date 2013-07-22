@@ -55,9 +55,9 @@ with con:
       else: 
         #insert into the database. 
         cur.execute("insert into " + db.table + "(idtag) values(%s);", (id))      
-          print "Tag Accepted." 
-          if NAME == "Linux": 
-            os.system("""spd-say "Tag Accepted." """)
-          elif NAME == "Darwin": 
-            os.system("say Tag Accepted") 
+        print "Tag Accepted." 
+        if NAME == "Linux": 
+          os.system("""spd-say "Tag Accepted." """)
+        elif NAME == "Darwin": 
+          os.system("say Tag Accepted") 
    
