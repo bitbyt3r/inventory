@@ -1,4 +1,4 @@
-\#!/usr/bin/python
+#!/usr/bin/python
 import MySQLdb as mdb
 import sys
 import db
