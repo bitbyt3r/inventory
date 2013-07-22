@@ -1,39 +1,49 @@
 #!/usr/bin/python
-import _mysql
+import MySQLdb as mdb
 import sys
 import db
+import platform
 
-try:
-  con = _mysql.connect(db.server, db.user, db.password, db.database)
-        
-  con.query("SELECT VERSION()")
-  result = con.use_result()
+NAME = platform.system() 
+
+################################################################################
+def getID(): 
+  id = raw_input("ID> ") 
+  try: 
+    int(id)
+    return id
+  except ValueError: 
+    return False
     
-  print "MySQL version: %s" % result.fetch_row()[0]
-    
-except _mysql.Error, e:
+################################################################################
   
-  print "Error %d: %s" % (e.args[0], e.args[1])
-  sys.exit(1)
+#Open the database connection. 
+con = mdb.connect(db.server, db.user, db.password, db.database)
 
-finally:
-  if con:
-    con.close()
+with con: 
+  
+  cur = con.cursor()
 
-def validCode(code):
-  return True
+  while True: 
+  
+    #Read in the code: 
+    id = getID() 
+    
 
-barcode = raw_input(":")
-while validCode(barcode):
-  try:
-    con = _mysql.connect(db.server, db.user, db.password, db.database)
+    if id != False: 
+      # Check for a duplicate tag. If it's duplicate, don't put it in. 
+      if cur.execute("select idtag from " + db.table + " where idtag=%s", (id)):
+        print "Duplicate tag." 
+        if NAME == "Linux": 
+          os.system("""spd-say "Rejected tag" """)
+        elif NAME == "Darwin": 
+          os.system("say Rejected tag") 
 
-    con.query("insert into %s set idtag=%s" % (db.table, barcode))
-  except _mysql.Error, e:
-    print "Error %d: %s" % (e.args[0], e.args[1])
-    sys.exit(1)
-  finally:
-    if con:
-      con.close()
+      else: 
+        #insert into the database. 
+        cur.execute("insert into " + db.table + "(idtag) values(%s);", (id))
 
-  barcode = raw_input(":")
+    else: 
+      print "invalid input!"
+      
+   
