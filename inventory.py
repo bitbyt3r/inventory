@@ -12,6 +12,13 @@ def getID():
   id = raw_input("ID> ") 
   try: 
     int(id)
+    if len(id) > 8:
+      print "invalid input!"
+      if NAME == "Linux": 
+        os.system("""spd-say "Invalid Tag" """)
+      elif NAME == "Darwin": 
+        os.system("say Invalid Tag")       
+      return False
     return id
   except ValueError: 
     return False
