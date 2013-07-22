@@ -13,7 +13,7 @@ def getID():
   try: 
     int(id)
     if len(id) > 8:
-      print "invalid input!"
+      print "invalid tag!"
       if NAME == "Linux": 
         os.system("""spd-say "Invalid Tag" """)
       elif NAME == "Darwin": 
@@ -21,6 +21,11 @@ def getID():
       return False
     return id
   except ValueError: 
+    print "invalid Input."
+    if NAME == "Linux": 
+      os.system("""spd-say "Invalid Input" """)
+    elif NAME == "Darwin": 
+      os.system("say Invalid Input")       
     return False
     
 ################################################################################
@@ -49,13 +54,5 @@ with con:
 
       else: 
         #insert into the database. 
-        cur.execute("insert into " + db.table + "(idtag) values(%s);", (id))
-
-    else: 
-      print "invalid input!"
-      if NAME == "Linux": 
-        os.system("""spd-say "Invalid Input" """)
-      elif NAME == "Darwin": 
-        os.system("say Invalid Input") 
-      
+        cur.execute("insert into " + db.table + "(idtag) values(%s);", (id))      
    
