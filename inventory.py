@@ -29,7 +29,18 @@ def getID():
     return False
     
 ################################################################################
-  
+
+
+def alert(alertText): 
+  print alertText
+  if NAME == "Linux": 
+    os.system('spd-say "%s" ' % alertText)
+  elif NAME == "Darwin": 
+    os.system("say %s" % alertText)             
+
+################################################################################
+
+
 #Open the database connection. 
 con = mdb.connect(db.server, db.user, db.password, db.database)
 
@@ -44,29 +55,16 @@ with con:
       lastID = id
     id = getID() 
     if lastID == id:
-      print "Rescan"
-      if NAME == "Linux": 
-        os.system("""spd-say "Rescan" """)
-      elif NAME == "Darwin": 
-        os.system("say Rescan")             
+      alert("Rescan") 
       continue
     
 
     if id != False: 
       # Check for a duplicate tag. If it's duplicate, don't put it in. 
       if cur.execute("select idtag from " + db.table + " where idtag=%s", (id)):
-        print "Duplicate tag." 
-        if NAME == "Linux": 
-          os.system("""spd-say "Duplicate tag" """)
-        elif NAME == "Darwin": 
-          os.system("say Duplicate tag") 
+        alert("Duplicate tag") 
 
       else: 
         #insert into the database. 
         cur.execute("insert into " + db.table + "(idtag) values(%s);", (id))      
-        print "Tag Accepted." 
-        if NAME == "Linux": 
-          os.system("""spd-say "Tag Accepted." """)
-        elif NAME == "Darwin": 
-          os.system("say Tag Accepted") 
-   
+        alert("Tag Accepted") 
