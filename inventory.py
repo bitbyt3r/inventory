@@ -3,6 +3,7 @@ import MySQLdb as mdb
 import sys
 import db
 import platform
+import os
 
 NAME = platform.system() 
 
