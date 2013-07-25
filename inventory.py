@@ -4,59 +4,68 @@ import sys
 import db
 import platform
 import os
+import myExceptions
 
-NAME = platform.system() 
-
-################################################################################
-def getID(): 
-  id = raw_input("ID> ") 
-  try: 
-    int(id)
-    if len(id) > 8:
-      alert("invalid tag!")
-      return False
-    return id
-  except ValueError: 
-    alert("invalid Input.")
-    return False
-    
-################################################################################
-
-
-def alert(alertText): 
-  print alertText
-  if NAME == "Linux": 
-    os.system('spd-say "%s" ' % alertText)
-  elif NAME == "Darwin": 
-    os.system("say %s" % alertText)             
-
-################################################################################
-
-
-#Open the database connection. 
-con = mdb.connect(db.server, db.user, db.password, db.database)
-
-with con: 
+class Inventory: 
   
-  cur = con.cursor()
-
-  while True: 
   
-    #Read in the code: 
-    if id:
-      lastID = id
-    id = getID() 
-    if lastID == id:
-      alert("Rescan") 
-      continue
+
+  def __enter__(self): 
+    self.con = mdb.connect(db.server, db.user, db.password, db.database)
+    self.cur = self.con.cursor(mdb.cursors.DictCursor) 
+
     
 
-    if id != False: 
-      # Check for a duplicate tag. If it's duplicate, don't put it in. 
-      if cur.execute("select idtag from " + db.table + " where idtag=%s", (id)):
-        alert("Duplicate tag") 
+  def __exit__(self, type, value, traceback): 
+    if self.con: 
+      self.con.close() 
+  
 
-      else: 
-        #insert into the database. 
-        cur.execute("insert into " + db.table + "(idtag) values(%s);", (id))      
-        alert("Tag Accepted") 
+  #Add a new machine to the inventory. 
+  def add(self, idtag, location='', model='', status='', hostname='', 
+          service_tag='', mac_address='', discarded=False, description=''): 
+
+    print idtag
+    
+    if self.cur.execute("select idtag from " + db.table + " where idtag=%s", (idtag)):
+      raise myExceptions.DuplicateException() 
+    
+    else: 
+      print idtag
+      print location
+      print model
+      print status
+      print hostname
+      print service_tag
+      print mac_address
+      print discarded
+      print description
+      self.cur.execute("insert into " + db.table + "(idtag, location, model, " + 
+                  "status, hostname, service_tag, mac_address, discarded, " +
+                  "description) values(%s, %s, %s, %s, %s, %s, %s, %s, %s);", 
+                  (idtag, location, model, status, hostname, service_tag,
+                   mac_address, discarded, description))
+
+
+  #Get based on idtag
+  def get(self, idtag): 
+    self.cur.execute("select * from " + db.table + " where idtag=%s;", (idtag)) 
+    info = self.cur.fetchone() 
+    return info
+  
+  #WARNING, USE WITH CAUTION: 
+  def delete(self, idtag): 
+    self.cur.execute("delete from " + db.table + " where idtag=%s;", (idtag))
+    
+  def isValidTag(self, idtag): 
+    if self.cur.execute("select idtag from " + db.table + " where idtag=%s", (idtag)): 
+      raise myExceptions.DuplicateException()
+
+    elif len(idtag) < 1 or len(idtag) > 8: 
+      raise myExceptions.InvalidIDException() 
+    
+  def tagExists(self, idtag): 
+    return self.cur.execute("Select idtag from " + db.table + " where idtag=%s;", (idtag))
+
+    
+  
