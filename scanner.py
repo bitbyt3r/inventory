@@ -209,36 +209,27 @@ def edit(inv):
 # Main. Nothing terribly fancy here.
 ################################################################################
 def main(): 
-    try: 
-        #Initilize the inventory object. 
-        inv = inventory.Inventory() 
-        
-        #This is where the magic happens. At the beginning of this, the __enter__()
-        #function is called, and at the end, __exit__() is called.
-        with inv: 
-            result = ""
-            while result != "quit": 
-                result = showMenu()
-                if result == "Add new tag": 
-                    addNewTag(inv)
-                elif result == "Batch add": 
-                    batchAdd(inv) 
-                elif result == "Look up a tag": 
-                    tagLookup(inv) 
-                elif result == "Edit a Tag": 
-                    edit(inv)
-                elif result == "Delete a Tag": 
-                    delete(inv)
-                elif result == "quit": 
-                    sys.exit(0) 
-
-    except myExceptions.CancelledException: 
-        print "Bye" 
-        sys.exit(0)
-    except ImportError: 
-        print "You are missing the MySQLdb module for pytyhon." 
-        print "Please install the MySQLdb module and try again." 
-
+    #Initilize the inventory object. 
+    inv = inventory.Inventory() 
+    
+    #This is where the magic happens. At the beginning of this, the __enter__()
+    #function is called, and at the end, __exit__() is called.
+    with inv: 
+        result = ""
+        while result != "quit": 
+            result = showMenu()
+            if result == "Add new tag": 
+                addNewTag(inv)
+            elif result == "Batch add": 
+                batchAdd(inv) 
+            elif result == "Look up a tag": 
+                tagLookup(inv) 
+            elif result == "Edit a Tag": 
+                edit(inv)
+            elif result == "Delete a Tag": 
+                delete(inv)
+            elif result == "quit": 
+                sys.exit(0) 
                 
                 
 main() 
