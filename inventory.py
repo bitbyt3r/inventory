@@ -1,16 +1,18 @@
 #!/usr/bin/python
-try: 
-  import MySQLdb as mdb
-except ImportError: 
-  print "You are missing the MySQLdb module for pytyhon." 
-  print "Please install the MySQLdb module and try again." 
-    
-
 import sys
 import db
 import platform
 import os
 import myExceptions
+
+try: 
+  import MySQLdb as mdb
+except ImportError: 
+  print "You are missing the MySQLdb module for pytyhon." 
+  print "Please install the MySQLdb module and try again." 
+  sys.exit(0)
+    
+
 
 class Inventory: 
   
