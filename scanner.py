@@ -235,6 +235,9 @@ def main():
     except myExceptions.CancelledException: 
         print "Bye" 
         sys.exit(0)
+    except ImportError: 
+        print "You are missing the MySQLdb module for pytyhon." 
+        print "Please install the MySQLdb module and try again." 
 
                 
                 
