@@ -11,8 +11,13 @@ class Inventory:
   
 
   def __enter__(self): 
-    self.con = mdb.connect(db.server, db.user, db.password, db.database)
-    self.cur = self.con.cursor(mdb.cursors.DictCursor) 
+    try: 
+      self.con = mdb.connect(db.server, db.user, db.password, db.database)
+      self.cur = self.con.cursor(mdb.cursors.DictCursor) 
+    except ImportError: 
+      print "You are missing the MySQLdb module for pytyhon." 
+      print "Please install the MySQLdb module and try again." 
+ 
 
     
 
