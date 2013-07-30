@@ -115,15 +115,15 @@ def tagLookup(inv):
             #This is ugly as sin. Basically the %-12s keeps the titles of the 
             #information lined up nicely. Then the {0}... is used to actually
             #insert the information. 
-            info = """%-12s {0} 
-%-12s {1}
-%-12s {2} 
-%-12s {3} 
-%-12s {4} 
-%-12s {5} 
-%-12s {6} 
-%-12s {7} 
-%-12s {8} 
+            info = """%-14s {0} 
+%-14s {1}
+%-14s {2} 
+%-14s {3} 
+%-14s {4} 
+%-14s {5} 
+%-14s {6} 
+%-14s {7} 
+%-14s {8} 
 """.format(idtag, asset['location'], asset['model'], asset['status'], 
            asset['hostname'], asset['service_tag'], asset['mac_address'], 
            asset['discarded'], 

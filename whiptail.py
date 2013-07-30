@@ -16,7 +16,7 @@ Response = namedtuple('Response', 'returncode value')
 
 class Whiptail(object):
     @save_args
-    def __init__(self, title='Inventory System', backtitle='UMBC CSEEIT ROCKS', height=15, width=50, auto_exit=True):
+    def __init__(self, title='Inventory System', backtitle='UMBC CSEEIT ROCKS', height=20, width=70, auto_exit=True):
         pass
 
     def run(self, control, msg, extra=(), exit_on=(1, 255)):
