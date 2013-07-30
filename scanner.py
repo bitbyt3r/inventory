@@ -115,7 +115,7 @@ def tagLookup(inv):
             #This is ugly as sin. Basically the %-12s keeps the titles of the 
             #information lined up nicely. Then the {0}... is used to actually
             #insert the information. 
-                info = """%-12s {0} 
+            info = """%-12s {0} 
 %-12s {1}
 %-12s {2} 
 %-12s {3} 
