@@ -111,7 +111,16 @@ def tagLookup(inv):
                 asset['discarded'] = "yes"
             else: 
                 asset['discarded'] = "no" 
-                
+            
+
+            #                '.       
+            #   .-""-._     \ \.--|  
+            #  /       "-..__) .-'   
+            # ಠ_______ಠ       /     
+            # \'-.__,   .__.,'       
+            # `'----'._\--'  
+            # Whale whale whale, what have we here?
+    
             #This is ugly as sin. Basically the %-12s keeps the titles of the 
             #information lined up nicely. Then the {0}... is used to actually
             #insert the information. 
